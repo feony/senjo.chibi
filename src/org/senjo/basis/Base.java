@@ -1,4 +1,4 @@
-/* Copyright 2016, 2018, Senjo Org. Denis Rezvyakov aka Dinya Feony Senjo.
+/* Copyright 2016, 2019, Senjo Org. Denis Rezvyakov aka Dinya Feony Senjo.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@ import org.senjo.annotation.*;
  * Подключаются как "import static *", используются без указания имени класса.
  * 
  * @author Denis Rezvyakov aka Dinya Feony Senjo
- * @version 2016, change 2018-10-12, release */
+ * @version 2016, change 2018-10-12, fix 2019-09-27, beta */
 @SuppressWarnings("unchecked")
 public final class Base {
 /*TODO Exist и empty не совсем корректная пара, т.к. exist по смыслу подразумевает
@@ -23,10 +23,6 @@ public final class Base {
  * на термины:
  * * exist => store (хранить, запасать), keep (хранить , держать   )
  * * empty => blank (пустой , чистый  ), idle (холостой, не занятый) */
-
-	/** Возвращает истину, если переданная строка отсутствует (null) или пустая. */
-	public static boolean empty(@Nullable String value) {
-		return value == null || value.isEmpty(); }
 
 	/** Возвращает истину, если переданная строка отсутствует (null) или пустая. */
 	public static boolean isEmpty(@Nullable String value) {
@@ -37,64 +33,52 @@ public final class Base {
 		return value == null || value.length == 0; }
 
 	/** Возвращает истину, если любая из переданных строк отсутствует (null) или пустая. */
-	public static boolean empty(@Nullable String value1, @Nullable String value2) {
+	public static boolean isEmpty(@Nullable String value1, @Nullable String value2) {
 		return value1 == null || value2 == null || value1.isEmpty() || value2.isEmpty(); }
 
 	/** Возвращает истину, если переданный массив отсутствует (null) или пустой. */
-	public static <T> boolean empty(@Nullable T[] value) {
+	public static <T> boolean isEmpty(@Nullable T[] value) {
 		return value == null || value.length == 0; }
 
 	/** Возвращает истину, если переданная коллекция отсутствует (null) или пустая. */
-	public static boolean empty(@Nullable Collection<?> value) {
+	public static boolean isEmpty(@Nullable Collection<?> value) {
 		return value == null || value.isEmpty(); }
 
 	/** Возвращает истину, если переданная карта отсутствует (null) или пустая. */
-	public static boolean empty(@Nullable Map<?,?> value) {
+	public static boolean isEmpty(@Nullable Map<?,?> value) {
 		return value == null || value.isEmpty(); }
 
 	/** Возвращает истину, если переданное число отсутствует (null) или равно нулю. */
-	public static boolean empty(@Nullable Long value) {
+	public static boolean isEmpty(@Nullable Long value) {
 		return value == null || value == 0; }
 
 	/** Возвращает истину, если переданное число отсутствует (null) или равно нулю. */
-	public static boolean empty(@Nullable Integer value) {
+	public static boolean isEmpty(@Nullable Integer value) {
 		return value == null || value == 0; }
 
 
-/*XXX В чём разница между exist и exists? Окончание -s в подобных словах ставится для третьего
+/* В чём разница между exist и exists? Окончание -s в подобных словах ставится для третьего
  * лица единственного числа. Верно писать: He lives, she runs, it eats, he has, she goes,
  * it exists. Но в программировании это окончание как-то не к месту, не в нём суть, да и лицо
  * явно не задано: "ты" или "он"... Так что убрать эти окончания. */
-	/** Возвращает истину, если переданная строка задана (not null) и не пустая. */
-	public static boolean exists(@Nullable String value) {
-		return value != null && !value.isEmpty(); }
-
 	/** Возвращает истину, если переданная строка задана (not null) и не пустая. */
 	public static boolean isExist(@Nullable String value) {
 		return value != null && !value.isEmpty(); }
 
 	/** Возвращает истину, если все переданные строки заданы (not null) и не пустые. */
-	public static boolean exists(@Nullable String value1, @Nullable String value2) {
+	public static boolean isExist(@Nullable String value1, @Nullable String value2) {
 		return value1 != null && value2 != null && !value1.isEmpty() && !value2.isEmpty(); }
 
 	/** Возвращает истину, если переданный массив задан (not null) и не пустой. */
-	public static <T> boolean exists(@Nullable T[] value) {
+	public static <T> boolean isExist(@Nullable T[] value) {
 		return value != null && value.length != 0; }
 
 	/** Возвращает истину, если переданный массив задан (not null) и не пустой. */
-	public static boolean exists(@Nullable int[] value) {
+	public static boolean isExist(@Nullable int[] value) {
 		return value != null && value.length != 0; }
 
 	/** Возвращает истину, если переданная коллекция задана (not null) и не пустая. */
-	public static boolean exists(@Nullable Collection<?> value) {
-		return value != null && !value.isEmpty(); }
-
-	/** Возвращает истину, если переданная коллекция задана (not null) и не пустая. */
 	public static boolean isExist(@Nullable Collection<?> value) {
-		return value != null && !value.isEmpty(); }
-
-	/** Возвращает истину, если переданная карта задана (not null) и не пуста. */
-	public static boolean exists(@Nullable Map<?,?> value) {
 		return value != null && !value.isEmpty(); }
 
 	/** Возвращает истину, если переданная карта задана (not null) и не пуста. */
@@ -102,15 +86,15 @@ public final class Base {
 		return value != null && !value.isEmpty(); }
 
 	/** Возвращает истину, если переданное число задано (not null) и не равно нулю. */
-	public static boolean exists(@Nullable Long value) {
+	public static boolean isExist(@Nullable Long value) {
 		return value != null && value != 0; }
 
 	/** Возвращает истину, если переданное число задано (not null) и не равно нулю. */
-	public static boolean exists(@Nullable Integer value) {
+	public static boolean isExist(@Nullable Integer value) {
 		return value != null && value != 0; }
 
 	/** Возвращает истину, если переданный флаг задан (not null) и равен true. */
-	public static boolean exists(@Nullable Boolean value) {
+	public static boolean isExist(@Nullable Boolean value) {
 		return value != null && value.booleanValue(); }
 
 
@@ -249,7 +233,7 @@ public final class Base {
 		return value != null ? value : Instant.now(); }
 
 	public static @Nullable String dead(@Nullable String value) {
-		return exists(value) ? value : null; }
+		return isExist(value) ? value : null; }
 
 	/** Возвращает живое значение или последнее. Если первое значение задано (not null),
 	 * то возвращается оно, иначе второе, даже если оно отсутствует (null). */
@@ -384,7 +368,7 @@ public final class Base {
 
 	/** Преобразует коллекцию с объектными простыми данными в массив примитивов. */
 	public static @NotNull int[] arrayOfInt(@Nullable Collection<Integer> source) {
-		if (empty(source)) return EMPTY_INT_ARRAY;
+		if (isEmpty(source)) return EMPTY_INT_ARRAY;
 		int[] result = new int[source.size()];
 		int index = -1;
 		for (int item : source) result[++index] = item;
@@ -392,7 +376,7 @@ public final class Base {
 
 	/** Преобразует коллекцию с объектными простыми данными в массив примитивов. */
 	public static @NotNull short[] arrayOfShort(@Nullable Collection<Short> source) {
-		if (empty(source)) return EMPTY_SHORT_ARRAY;
+		if (isEmpty(source)) return EMPTY_SHORT_ARRAY;
 		short[] result = new short[source.size()];
 		int index = -1;
 		for (short item : source) result[++index] = item;
@@ -400,7 +384,7 @@ public final class Base {
 
 	/** Преобразует коллекцию с объектными простыми данными в массив примитивов. */
 	public static @NotNull char[] arrayOfChar(@Nullable Collection<Character> source) {
-		if (empty(source)) return EMPTY_CHAR_ARRAY;
+		if (isEmpty(source)) return EMPTY_CHAR_ARRAY;
 		char[] result = new char[source.size()];
 		int index = -1;
 		for (char item : source) result[++index] = item;
