@@ -34,7 +34,7 @@ import org.senjo.annotation.*;
  * <u>Отладка</u>. Наглядное состояние корзинки можно увидеть с помощью метода
  * {@link Basket#toString(ABasket)}.
  * 
- * @author Denis Rezvyakov aka Dinya Senjo
+ * @author Denis Rezvyakov aka Dinya Feony Senjo
  * @version 2016, change 2018-10-12, release */
 public abstract class ABasket {
 	static final int offset = doOffset(ABasket.class, "basket");
@@ -124,7 +124,8 @@ public abstract class ABasket {
 	 * два параметра в одной константе исходного кода. Объединить параметры можно методом
 	 * {@link #hybrid(int, int)}.
 	 * <br/><pre>0101'0101 => turn(0000'1111.0000'1100) => 0101'1100</pre> */
-	@Naive protected final void turn(long hybrid) { turn((int)hybrid, (int)(hybrid >> 32)); }
+	@Naive protected final boolean turn(long hybrid) {
+		return turn((int)hybrid, (int)(hybrid >> 32)); }
 
 	/** Проверить наличие гибрида в корзинке. Гибрид содержит в себе значение из нескольких
 	 * бит и маску этого значения.
@@ -135,7 +136,7 @@ public abstract class ABasket {
 	@Naive protected final boolean state(long hybrid) {
 		return every((int)hybrid, (int)(hybrid >> 32)); }
 
-	/** Установить флаги по маске, в том числе по расширенным. Хибридные значения и смещения
+	/** Установить флаги по маске, в том числе по расширенным. Гибридные значения и смещения
 	 * в расширенных масках при этом игнорируются, а вместо них используются явно указанные.
 	 * <br/><pre>0101'0101 => turn(0000'1111'0000'1100) => 0101'1100</pre> */
 	@Naive protected final boolean turn(long exmask, int value) {

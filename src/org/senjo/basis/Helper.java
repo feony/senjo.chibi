@@ -8,10 +8,7 @@
 package org.senjo.basis;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 import org.senjo.annotation.*;
 import sun.misc.JavaLangAccess;
 import sun.misc.SharedSecrets;
@@ -54,7 +51,7 @@ public class Helper {
 	 * <br/><i>Пример:</i>
 	 * <pre><code> @Override public boolean equals(Object obj) {
 	 *   final Type that = prepareEquals(this, obj, true);
-	 *   return that != null ? that.x == this.x && that.y == this.y : obj == this;
+	 *   return that == null ? obj == this : this.x == that.x && this.y == that.y;
 	 * }</code></pre>
 	 * @param checkHashCode — если true, то дополнительно проверит совпадение hash-кодов
 	 * двух объектов; если они не совпадут, то вернёт объект — т.е. объекты не эквивалентны.
@@ -98,7 +95,8 @@ public class Helper {
 		ArrayIterator(T[] array, int length) { this.array  = array; this.length = length; }
 
 		@Override public Iterator<T> iterator() {
-			if (nextIndex >= 0) throw new RuntimeException("Can't get second");
+			if (nextIndex >= 0) throw new RuntimeException(
+					"Can't provide the second iterator" );
 			nextIndex = 0; return this; }
 		@Override public boolean hasNext() { return nextIndex < length; }
 		@Override public T next() { return array[nextIndex++]; }
@@ -188,7 +186,7 @@ public class Helper {
 	} catch (Exception ex) { throw Base.Illegal("Can't take offset for field. " + ex); } }
 
 	/** Если в указанном поле нет значения (is null), то безопасно устанавливает новое
-	 * значение в это поля. Гарантируется атамарность, т.е. если другой поток одновременно
+	 * значение в это поле. Гарантируется атамарность, т.е. если другой поток одновременно
 	 * перед установкой успеет подложить новое значение вместо null, то данная установка
 	 * будет отменена и возвращён false, чужое значение не потеряется затиранием. */
 	public static <T> boolean unsafePush(Object instance, long offset, T value) {
@@ -245,7 +243,7 @@ public class Helper {
 			return (T[])unsafe.getObject(victim, (long)arrayListGutOffset); }
 
 		/** Обрезать стек выброса (исключения). Удаляет из стека выброса часть методов,
-		 * чтобы казалось что экземпляр был создан ниже по стеку. Актуально с логической
+		 * чтобы казалось, что экземпляр был создан ниже по стеку. Актуально с логической
 		 * точки зрения, когда реально экземпляр создаётся гораздо глубже, чем произошло
 		 * предшествующее тому событие, которое этим выбросом и описывается. */
 		public <Type extends Throwable> Type cutStackTop(Type victim, int cutDepth) {
