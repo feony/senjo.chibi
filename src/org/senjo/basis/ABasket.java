@@ -61,12 +61,12 @@ public abstract class ABasket {
 	/** Проверить строгое отсутствие всех флагов из emptyMask и наличие из everyMask.
 	 * <p/><u>Пример</u>: проверить, чтобы второй флаг отсутствовал, и при этом
 	 * первый с третьим присутствовали:<br/>
-	 * <pre>0101'0101 => stage(Second, First|Third) => return true</pre> */
+	 * <pre>0101'0101 => state(Second, First|Third) => return true</pre> */
 	@Naive protected final boolean state(int emptyMask, int everyMask) {
 		return (basket & (emptyMask|everyMask)) == everyMask; }
 
 	/** Возвращает флаги отфильтрованные по указанной маске.
-	 * <br/><pre>0101'0101 => flags(First|Third|Fourth) => return First|Third</pre> */
+	 * <br/><pre>0101'0101 => mask(First|Third|Fourth) => return First|Third</pre> */
 	@Naive protected final int mask(int mask) { return basket & mask; }
 
 
@@ -110,7 +110,7 @@ public abstract class ABasket {
 	protected static final long hybrid(int mask, int model) {
 		return (long)model<<32 | mask; }
 
-	/** Преобразовать маску в упаковку */
+	/** Преобразовать маску в упаковку. */
 	protected static final long packet(int mask) {
 		if (mask == 0) throw Illegal("Mask can't be empty");
 		long result = mask;
