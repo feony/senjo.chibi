@@ -1,4 +1,4 @@
-/* Copyright 2016, 2018, Senjo Org. Denis Rezvyakov aka Dinya Feony Senjo.
+﻿/* Copyright 2019, Senjo Org. Denis Rezvyakov aka Dinya Feony Senjo.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,7 @@ import org.senjo.basis.ABasket;
 
 /**
  * 
- * @author Denis Rezvyakov aka Dinya Feony Senjo
- * @version 2016, change 2018-10-12, release */
+ * @author Denis Rezvyakov aka Dinya Feony Senjo */
 class UBasket extends ABasket {
 
 	@BeforeEach void clean() { swap(ALL, First|Second);  }
@@ -119,12 +118,12 @@ class UBasket extends ABasket {
 	private static final int Beta  = 1<<fin+2;
 	private static final int Gamma = 1<<fin+3;
 	private static final int Delta = 1<<fin+4;
-	
+
 	private static final int Epsilon = 1<<0;
 	private static final int Zeta    = 1<<1;
 	private static final int Eta     = 1<<2;
 	private static final int Theta   = 1<<3;
-	
+
 	private static final int First  = Alpha|Epsilon;
 	private static final int Second = Beta |Zeta   ;
 	private static final int Third  = Gamma|Eta    ;
