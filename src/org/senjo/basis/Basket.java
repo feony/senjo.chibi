@@ -21,7 +21,6 @@ import org.senjo.support.LogEx;
  * 
  * @author Denis Rezvyakov aka Dinya Feony Senjo
  * @version 2016, change 2019-02-25, release */
-@SuppressWarnings("rawtypes")
 public final class Basket {
 	static final int offset = doOffset(ABasket.class, "basket");
 	@Unsafe int basket;
@@ -35,9 +34,9 @@ public final class Basket {
 
 
 	public static boolean $Exist(int basket, int mask) { return (basket & mask) != 0; }
-	public static boolean $Empty(int basket, int mask) { return (basket & mask) == 0; }
+	public static boolean $empty(int basket, int mask) { return (basket & mask) == 0; }
 	public static boolean $Every(int basket, int mask) { return (basket & mask) == mask; }
-	public static boolean $Every(int basket, int mask, int model) {
+	public static boolean $every(int basket, int mask, int model) {
 		return (basket & mask) == model; }
 	public static boolean $State(int basket, int emptyMask, int everyMask) {
 		return (basket & (emptyMask|everyMask)) == everyMask; }

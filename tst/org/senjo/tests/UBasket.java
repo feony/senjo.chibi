@@ -15,7 +15,8 @@ import org.senjo.basis.ABasket;
 
 /**
  * 
- * @author Denis Rezvyakov aka Dinya Feony Senjo */
+ * @author Denis Rezvyakov aka Dinya Feony Senjo
+ * @version create 2019-09-27 */
 class UBasket extends ABasket {
 
 	@BeforeEach void clean() { swap(ALL, First|Second);  }

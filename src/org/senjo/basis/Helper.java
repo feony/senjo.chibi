@@ -18,7 +18,6 @@ import sun.misc.Unsafe;
  * 
  * @author Denis Rezvyakov aka Dinya Feony Senjo
  * @version 2016, change 2019-02-12, release */
-@SuppressWarnings("rawtypes")
 public class Helper {
 	/** Метод упрощает написание своей реализации проверки на эквивалентность.
 	 * Он выполняет все типичные начальные проверки и возвращает true, если результат
@@ -167,8 +166,14 @@ public class Helper {
 
 
 //======== Вытаскивание защищённых системных библиотек Unsafe и Secret ===================//
+	/** Небезопасный синглтон, содержит нативные процедуры Java машины для доступа
+	 * к неуправляемой памяти, командам процессора и низкоуровневого управления потоками. */
 	public static final Unsafe         unsafe = unsafeHack();
+	/** Доступ к секретам (приватным методам) некоторых стандартных Java-классов. */
 	public static final JavaLangAccess secret = SharedSecrets.getJavaLangAccess();
+	/** Хулиганский синглтон, который в целях ускорения производительности и экономии
+	 * ресурсов выполняет над сторонними объектами небезопасные действия.
+	 * Использовать только с полным пониманием производимых действий. */
 	public static final Vandal         vandal = new Vandal();
 
 	private static Unsafe unsafeHack() { try {

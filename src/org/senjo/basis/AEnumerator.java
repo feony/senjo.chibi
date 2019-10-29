@@ -238,7 +238,6 @@ public abstract class AEnumerator<T> extends ABasket implements Iterable<T> {
 
 //======== Implementations : Примитивные реализации перечислителя ========================//
 	public static final <T> AEnumerator<T> makeEmpty() { return EMPTY; }
-	@SuppressWarnings("rawtypes")
 	private static final AEnumerator EMPTY = new AEnumerator() {
 		@Override protected boolean next(int index) { return false; }
 		@Override public int size(int fake) { return 0; } };

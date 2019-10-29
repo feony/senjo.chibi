@@ -8,7 +8,7 @@
 package org.senjo.engine;
 
 import static org.senjo.basis.Helper.*;
-import static org.senjo.basis.Text.textInstance;
+import static org.senjo.basis.Text.hashName;
 import static org.senjo.support.LogEx.*;
 import org.senjo.basis.Ticker;
 
@@ -21,8 +21,7 @@ import org.senjo.basis.Ticker;
  * Тесты разных подходов проводились одновременно.
  * 
  * @author Denis Rezvyakov aka Dinya Feony Senjo
- * @version create 2018-02-12, change 2019-02-25, release */
-@SuppressWarnings("rawtypes")
+ * @version create 2018-02-12, change 2019-02-25, candidate */
 public final class BasketEngine {
 	public static final int doOffset(Class type, String fieldName) {
 		return unsafeOffset(type, fieldName); }
@@ -251,7 +250,7 @@ public final class BasketEngine {
 			update = unsafe.getIntVolatile(owner, offset);
 			if ((update & monitor) == 0) {
 				if (miss >= 0)
-					info("SpinLock " + textInstance(owner) + ( (miss&0x10000000) == 0
+					trace("SpinLock " + hashName(owner) + ( (miss&0x10000000) == 0
 							? " waited for " + (miss + AllowableParkCount) + " cycles "
 							: " relive after deadlock " ) + Ticker.toString(tick));
 				return update; }
@@ -260,7 +259,7 @@ public final class BasketEngine {
 				if ((miss&0xF0000000) == 0)
 					if (cycles == 0) ++miss; else miss = 0x10000000;
 				else if (cycles != (miss&0x0FFFFFFF)) {
-					String suffix = " in SpinLock unit of " + textInstance(owner)
+					String suffix = " in SpinLock unit of " + hashName(owner)
 							+ ". It waiting too long " + Ticker.toString(tick);
 					if (miss != 0x10000000) fault("DEADLOCK #" + cycles + suffix);
 					else fault("DEADLOCK" + suffix, vandal.cutStackTop(new Throwable(), 3));
