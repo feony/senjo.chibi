@@ -1,4 +1,4 @@
-/* Copyright 2018, 2019, Senjo Org. Denis Rezvyakov aka Dinya Feony Senjo.
+/* Copyright 2019, Senjo Org. Denis Rezvyakov aka Dinya Feony Senjo.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -9,16 +9,22 @@ package org.senjo.data;
 
 import static org.senjo.basis.Base.Illegal;
 import static org.senjo.basis.Helper.vandal;
-import static org.senjo.basis.Text.textInstance;
 
 import org.senjo.annotation.*;
 import org.senjo.basis.ABasket;
+import org.senjo.basis.Text;
+import org.senjo.basis.Ticker;
 
-/**
+/** Основное назначение данного механизма — это правильные окончания слов в фразах
+ * с переменными числами (метод {@link #form(int, String)}).
+ * Например: «Приплыл 1 красивый лебедь», «Приплыло 5 красивых лебедей».
+ * <p/>
+ * Я знаю про существование проекта i18n, но мне пока нужно что-то простое, компактное
+ * и без конфигов.
  * 
  * @author Denis Rezvyakov aka Dinya Feony Senjo
  * @version create 2019-03-14, beta */
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings("unchecked")
 public abstract class APhrase<This extends APhrase, Result> extends ABasket {
 	private final StringBuilder out;
 	private long number;
@@ -41,7 +47,8 @@ public abstract class APhrase<This extends APhrase, Result> extends ABasket {
 	public final This div(char ch1, char ch2) {
 		if (!push(Divider)) out.append(ch1).append(ch2); return (This)this; }
 	public final This rediv() { take(Divider); return (This)this; }
-	public final This instance(Object target) { textInstance(out, target); return (This)this; }
+	public final This hashName(Object target) {
+		Text.hashName(out, target); return (This)this; }
 
 	public final This put(String text) {
 		if (text != null) out.append(text); return (This)this; }
@@ -90,6 +97,13 @@ public abstract class APhrase<This extends APhrase, Result> extends ABasket {
 			@Nullable String dual, @Nullable String plural ) {
 		out.append(word); return _form(single, dual, plural); }
 
+	/** Строит числовую фразу по формату format подставляя правильное окончание слов
+	 * по отношению к числу number.
+	 * <p/>Пример фраз: «Созрел 1 подсолнух», «Созрели 4 подсолнуха», «Созрели 300
+	 * подсолнухов».<br/>
+	 * Использование: {@code #form(count, "Созрел[|и] [@] подсолнух[|а|ов]")}
+	 * @param number — число, по отношению к которому нужно поставить окончание;
+	 * @param format — формат определяет часть фразы с указанием всех окончаний слов. */
 	public final This form(long number, @NotNull String format) {
 		int code;
 		{	long value = number >= 0 ? number : -number;
@@ -129,6 +143,9 @@ public abstract class APhrase<This extends APhrase, Result> extends ABasket {
 		default    : throw Illegal(mode); }
 		return (This)this;
 	}
+
+	public final This tick(long nano) {
+		out.append(Ticker.toStringEx(nano)); return (This)this; }
 
 	public final Result end() { return apply(out); }
 	public final Result end(String text) { return apply(out.append(text)); }
