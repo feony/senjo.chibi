@@ -62,9 +62,9 @@ public abstract class Log {
 
 	public final boolean need(Level level) {
 		final int rate = level.ordinal(); return rate <= limit && rate <= mode; }
-	public final boolean info () { return need(Info ); }
-	public final boolean trace() { return need(Trace); }
-	public final boolean debug() { return need(Debug); }
+	public final boolean isInfo () { return need(Info ); }
+	public final boolean isTrace() { return need(Trace); }
+	public final boolean isDebug() { return need(Debug); }
 
 	public final void fatal(String message) { log(Fatal, 1, message, null); }
 	public final void fault(String message) { log(Fault, 1, message, null); }
